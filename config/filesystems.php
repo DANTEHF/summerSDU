@@ -55,14 +55,43 @@ return [
             'visibility' => 'public',
         ],
 
-        's3' => [
-            'driver' => 's3',
-            'key' => env('AWS_KEY'),
-            'secret' => env('AWS_SECRET'),
-            'region' => env('AWS_REGION'),
-            'bucket' => env('AWS_BUCKET'),
+//        's3' => [
+//            'driver' => 's3',
+//            'key' => env('AWS_KEY'),
+//            'secret' => env('AWS_SECRET'),
+//            'region' => env('AWS_REGION'),
+//            'bucket' => env('AWS_BUCKET'),
+//        ],
+        'ad'=>[
+            'driver' => 'local',
+            'root' => storage_path('app/active_device'),
+            'visibility' => 'public',
         ],
-
-    ],
+        'au'=>[
+            'driver' => 'local',
+            'root' => storage_path('app/active_user'),
+            'visibility' => 'public',
+        ],
+        'nd'=>[
+            'driver' => 'local',
+            'root' => storage_path('app/new_user'),
+            'visibility' => 'public',
+        ],
+        'nu'=>[
+            'driver' => 'local',
+            'root' => storage_path('app/new_user'),
+            'visibility' => 'public',
+        ],
+        'pd'=>[
+            'driver' => 'local',
+            'root' => storage_path('app/pay_device'),
+            'visibility' => 'public',
+        ],
+        'pu'=>[
+            'driver' => 'local',
+            'root' => storage_path('app/pay_user'),
+            'visibility' => 'public',
+        ],
+        ],
 
 ];

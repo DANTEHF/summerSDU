@@ -28,10 +28,10 @@
     <div class="g_contentpanel">
         <img src="{{URL::asset('static/image/logo.png')}}" alt="logo">
         <ul>
-            <li><a href="#">Ö÷Ò³</a></li>
-            <li><a href="#">°ïÖú</a></li>
-            <li><a href="#">ÉèÖÃ</a></li>
-            <li><a href="#">ÍË³ö</a></li>
+            <li><a href="#">ä¸»é¡µ</a></li>
+            <li><a href="#">å¸®åŠ©</a></li>
+            <li><a href="#">è®¾ç½®</a></li>
+            <li><a href="#">é€€å‡º</a></li>
         </ul>
     </div>
 </div>
@@ -40,44 +40,44 @@
         <div class="g_content_left g_up">
             <img src="">
             <p class="g_p g_p1">{{ $name }}</p>
-            <p class="g_p g_p2">¸öÈË×ÔÎÒ×ùÓÒÃú</p>
+            <p class="g_p g_p2">ä¸ªäººè‡ªæˆ‘åº§å³é“­</p>
         </div>
         <div class="g_content_left g_down">
             <div class="g_p3">
-                <p>ÏîÄ¿Ñ¡Ôñ</p>
+                <p>é¡¹ç›®é€‰æ‹©</p>
                 <img class="g_jt g_l1" id="g_l1" src="{{URL::asset('static/image/jiantou.png')}}">
             </div>
             <div class="g_ul1" >
            		<ol id='applist'>
-                   <!--<li>ÏîÄ¿´óÊý¾Ý</li>
-                    <li>ÏîÄ¿RPGÓÎÏ·</li>
-                    <li>ÏîÄ¿·ÀµÁ</li>-->
+                   <!--<li>é¡¹ç›®å¤§æ•°æ®</li>
+                    <li>é¡¹ç›®RPGæ¸¸æˆ</li>
+                    <li>é¡¹ç›®é˜²ç›—</li>-->
                 </ol>
             </div>
             <div class="g_shitu2">
                 <div class="g_xiangmu">
-                    <p id="xiangmu_name">ÏîÄ¿Ãû³Æ</p>
+                    <p id="xiangmu_name">é¡¹ç›®åç§°</p>
                 </div>
                 <div class="g_shuju">
                     <div class="g_p4">
-                        <p>Êý¾Ý·ÖÎö</p>
+                        <p>æ•°æ®åˆ†æž</p>
                         <img class="g_jt g_l2" src="{{URL::asset('static/image/jiantou.png')}}">
                         <ul class="g_ul2">
-                            <li class="g_ul2-1">¹Ø¼üÊý¾Ý</li>
-                            <li class="g_ul2-2">ÐÂÔöÉè±¸</li>
-                            <li class="g_ul2-3">ÐÂÔöÓÃ»§</li>
-                            <li class="g_ul2-4">»îÔ¾Éè±¸¸Å¿ö</li>
-                            <li class="g_ul2-5">»îÔ¾Íæ¼Ò¸Å¿ö</li>
-                            <li class="g_ul2-6">Áô´æÓÃ»§Éè±¸</li>
-                            <li class="g_ul2-7">ÓÃ»§ÏµÍ³Éè±¸</li>
+                            <li class="g_ul2-1">å…³é”®æ•°æ®</li>
+                            <li class="g_ul2-2">æ–°å¢žè®¾å¤‡</li>
+                            <li class="g_ul2-3">æ–°å¢žç”¨æˆ·</li>
+                            <li class="g_ul2-4">æ´»è·ƒè®¾å¤‡æ¦‚å†µ</li>
+                            <li class="g_ul2-5">æ´»è·ƒçŽ©å®¶æ¦‚å†µ</li>
+                            <li class="g_ul2-6">ç•™å­˜ç”¨æˆ·è®¾å¤‡</li>
+                            <li class="g_ul2-7">ç”¨æˆ·ç³»ç»Ÿè®¾å¤‡</li>
                         </ul>
                     </div>
                     <div class="g_p5">
-                        <b>¹ÜÀíÉèÖÃ</b>
+                        <b>ç®¡ç†è®¾ç½®</b>
                         <img class="g_jt g_l3" src="{{URL::asset('static/image/jiantou.png')}}">
                         <ul class="g_ul3">
-                            <li class="g_ul3-1">²¨¶¯Ô¤¾¯</li>
-                            <li class="g_ul3-2">ÔËÓªÈÕÖ¾</li>
+                            <li class="g_ul3-1">æ³¢åŠ¨é¢„è­¦</li>
+                            <li class="g_ul3-2">è¿è¥æ—¥å¿—</li>
                         </ul>
                     </div>
                     <img class="g_fanhui" src="{{URL::asset('static/image/fanhui.png')}}">
@@ -88,11 +88,11 @@
 
     <div class="g_content_right">
         <div class="g_p_hide">
-            <p>ÇëÑ¡ÔñÄãµÄÏîÄ¿</p>
+            <p>è¯·é€‰æ‹©ä½ çš„é¡¹ç›®</p>
         </div>
 
         <div class="g_content_right_header">
-            <p>ÆðÊ¼ÈÕÆÚ£º</p>
+            <p>èµ·å§‹æ—¥æœŸï¼š</p>
             <div class="date">
                 <div class="controls input-append date form_date" data-date=""
                      data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
@@ -101,7 +101,7 @@
                     <span class="add-on"><i class="icon-th"></i></span>
                 </div>
             </div>
-            <p>½áÊøÈÕÆÚ£º</p> 
+            <p>ç»“æŸæ—¥æœŸï¼š</p> 
             <div class="date">
                 <div class="controls input-append date form_date" data-date=""
                      data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
@@ -109,20 +109,20 @@
                     <span class="add-on"><i class="icon-remove"></i></span>
                     <span class="add-on"><i class="icon-th"></i></span>
                 </div>
-                <button type="button" class="btn btn-default btn-xs" id="queding">È·¶¨</button>
+                <button type="button" class="btn btn-default btn-xs" id="queding">ç¡®å®š</button>
             </div>
             <ul>
-                <li><a id="last_day" href="#">×òÌì</a></li>
-                <li><a id="7_day" href="#">½üÆßÌì</a></li>
-                <li><a id="30_day" href="#">½üÈýÊ®Ìì</a></li>
-                <li><a id="all_day" href="#">È«²¿</a></li>
+                <li><a id="last_day" href="#">æ˜¨å¤©</a></li>
+                <li><a id="7_day" href="#">è¿‘ä¸ƒå¤©</a></li>
+                <li><a id="30_day" href="#">è¿‘ä¸‰åå¤©</a></li>
+                <li><a id="all_day" href="#">å…¨éƒ¨</a></li>
             </ul>
         </div>
         <div class="g_maincontent g_maincontent1_1" id="g_maincontent1_1">
             <div class="g_maincontent_header">
                 <div class="btn-group" role="group" aria-label="...">
-                    <button type="button" class="btn btn-default g_ul2-1-1">ÐÂÔöÓÃ»§ºÍÉèÅä</button>
-                    <button type="button" class="btn btn-default g_ul2-1-2">»îÔ¾Íæ¼ÒºÍÉè±¸</button>
+                    <button type="button" class="btn btn-default g_ul2-1-1">æ–°å¢žç”¨æˆ·å’Œè®¾é…</button>
+                    <button type="button" class="btn btn-default g_ul2-1-2">æ´»è·ƒçŽ©å®¶å’Œè®¾å¤‡</button>
                 </div>
             </div>
             <div class="main1_1 main1_1_1" id="main1_1_1"></div>
@@ -130,9 +130,9 @@
         <div class="g_maincontent g_maincontent1_1" id="g_maincontent1_1">
             <div class="g_maincontent_header">
                 <div class="btn-group" role="group" aria-label="...">
-                    <button type="button" class="btn btn-default g_ul2-1-3">¸¶·Ñ½ð¶î</button>
-                    <button type="button" class="btn btn-default g_ul2-1-4">¸¶·ÑÓÃ»§</button>
-                    <button type="button" class="btn btn-default g_ul2-1-5">Ó¦ÓÃÏÂÔØÁ¿</button>
+                    <button type="button" class="btn btn-default g_ul2-1-3">ä»˜è´¹é‡‘é¢</button>
+                    <button type="button" class="btn btn-default g_ul2-1-4">ä»˜è´¹ç”¨æˆ·</button>
+                    <button type="button" class="btn btn-default g_ul2-1-5">åº”ç”¨ä¸‹è½½é‡</button>
                 </div>
             </div>
             <div class="main1_1 main1_1_2" id="main1_1_2"></div>
@@ -141,9 +141,9 @@
         <div class="g_maincontent g_maincontent1_2" id="g_maincontent1_2">
             <div class="g_maincontent_header">
                 <div class="btn-group" role="group" aria-label="...">
-                    <button type="button" class="btn btn-default g_ul2-2-1">ÐÂÔöÉè±¸ÊýÁ¿</button>
-                    <button type="button" class="btn btn-default g_ul2-2-2">Ê×´ÎÊ¹ÓÃÊ±³¤</button>
-                    <button type="button" class="btn btn-default g_ul2-2-3">Éè±¸Æ·ÅÆ</button>
+                    <button type="button" class="btn btn-default g_ul2-2-1">æ–°å¢žè®¾å¤‡æ•°é‡</button>
+                    <button type="button" class="btn btn-default g_ul2-2-2">é¦–æ¬¡ä½¿ç”¨æ—¶é•¿</button>
+                    <button type="button" class="btn btn-default g_ul2-2-3">è®¾å¤‡å“ç‰Œ</button>
                 </div>
             </div>
             <div class="main1_2 main1_2_1" id="main1_2_1"></div>
@@ -151,7 +151,7 @@
         <div class="g_maincontent g_maincontent1_2" id="g_maincontent1_2">
             <div class="g_maincontent_header">
                 <div class="btn-group" role="group" aria-label="...">
-                    <button type="button" class="btn btn-default g_ul2-2-4">Ê¹ÓÃµØÇø</button>
+                    <button type="button" class="btn btn-default g_ul2-2-4">ä½¿ç”¨åœ°åŒº</button>
                 </div>
             </div>
             <div class="main1_2 main1_2_2" id="main1_2_2"></div>
@@ -160,8 +160,8 @@
         <div class="g_maincontent g_maincontent1_3" id="g_maincontent1_3">
             <div class="g_maincontent_header">
                 <div class="btn-group" role="group" aria-label="...">
-                    <button type="button" class="btn btn-default g_ul2-3-1">ÐÂÔöÓÃ»§ÊýÁ¿</button>
-                    <button type="button" class="btn btn-default g_ul2-3-2">Ê×´ÎÊ¹ÓÃÊ±³¤</button>
+                    <button type="button" class="btn btn-default g_ul2-3-1">æ–°å¢žç”¨æˆ·æ•°é‡</button>
+                    <button type="button" class="btn btn-default g_ul2-3-2">é¦–æ¬¡ä½¿ç”¨æ—¶é•¿</button>
                 </div>
             </div>
             <div class="main1_3 main1_3_1" id="main1_3_1"></div>
@@ -169,7 +169,7 @@
         <div class="g_maincontent g_maincontent1_3" id="g_maincontent1_3">
             <div class="g_maincontent_header">
                 <div class="btn-group" role="group" aria-label="...">
-                    <button type="button" class="btn btn-default g_ul2-3-3">µØÇø·Ö²¼</button>
+                    <button type="button" class="btn btn-default g_ul2-3-3">åœ°åŒºåˆ†å¸ƒ</button>
                 </div>
             </div>
             <div class="main1_3 main1_3_2" id="main1_3_2"></div>
@@ -178,9 +178,9 @@
         <div class="g_maincontent g_maincontent1_4" id="g_maincontent1_4">
             <div class="g_maincontent_header">
                 <div class="btn-group" role="group" aria-label="...">
-                    <button type="button" class="btn btn-default g_ul2-4-1">ÈÕ»îÔ¾Éè±¸</button>
-                    <button type="button" class="btn btn-default g_ul2-4-2">ÖÜ»îÔ¾Éè±¸</button>
-                    <button type="button" class="btn btn-default g_ul2-4-3">ÔÂ»îÔ¾Éè±¸</button>
+                    <button type="button" class="btn btn-default g_ul2-4-1">æ—¥æ´»è·ƒè®¾å¤‡</button>
+                    <button type="button" class="btn btn-default g_ul2-4-2">å‘¨æ´»è·ƒè®¾å¤‡</button>
+                    <button type="button" class="btn btn-default g_ul2-4-3">æœˆæ´»è·ƒè®¾å¤‡</button>
                 </div>
             </div>
             <div class="main1_4 main1_4_1" id="main1_4_1"></div>
@@ -188,7 +188,7 @@
         <div class="g_maincontent g_maincontent1_4" id="g_maincontent1_4">
             <div class="g_maincontent_header">
                 <div class="btn-group" role="group" aria-label="...">
-                    <button type="button" class="btn btn-default g_ul2-4-4">ÒÑÓÃÌìÊý</button>
+                    <button type="button" class="btn btn-default g_ul2-4-4">å·²ç”¨å¤©æ•°</button>
                 </div>
             </div>
             <div class="main1_4 main1_4_2" id="main1_4_2"></div>
@@ -197,9 +197,9 @@
         <div class="g_maincontent g_maincontent1_5" id="g_maincontent1_5">
             <div class="g_maincontent_header">
                 <div class="btn-group" role="group" aria-label="...">
-                    <button type="button" class="btn btn-default g_ul2-5-1">ÈÕ»îÔ¾Íæ¼Ò</button>
-                    <button type="button" class="btn btn-default g_ul2-5-2">ÖÜ»îÔ¾Íæ¼Ò</button>
-                    <button type="button" class="btn btn-default g_ul2-5-3">ÔÂ»îÔ¾Íæ¼Ò</button>
+                    <button type="button" class="btn btn-default g_ul2-5-1">æ—¥æ´»è·ƒçŽ©å®¶</button>
+                    <button type="button" class="btn btn-default g_ul2-5-2">å‘¨æ´»è·ƒçŽ©å®¶</button>
+                    <button type="button" class="btn btn-default g_ul2-5-3">æœˆæ´»è·ƒçŽ©å®¶</button>
                 </div>
             </div>
             <div class="main1_5 main1_5_1" id="main1_5_1"></div>
@@ -207,7 +207,7 @@
         <div class="g_maincontent g_maincontent1_5" id="g_maincontent1_5">
             <div class="g_maincontent_header">
                 <div class="btn-group" role="group" aria-label="...">
-                    <button type="button" class="btn btn-default g_ul2-5-4">ÒÑÓÃÌìÊý</button>
+                    <button type="button" class="btn btn-default g_ul2-5-4">å·²ç”¨å¤©æ•°</button>
                 </div>
             </div>
             <div class="main1_5 main1_5_2" id="main1_5_2"></div>
@@ -216,8 +216,8 @@
         <div class="g_maincontent g_maincontent1_6" id="g_maincontent1_6">
             <div class="g_maincontent_header">
                 <div class="btn-group" role="group" aria-label="...">
-                    <button type="button" class="btn btn-default g_ul2-6-1">Éè±¸Áô´æ</button>
-                    <button type="button" class="btn btn-default g_ul2-6-2">ÓÃ»§Áô´æ</button>
+                    <button type="button" class="btn btn-default g_ul2-6-1">è®¾å¤‡ç•™å­˜</button>
+                    <button type="button" class="btn btn-default g_ul2-6-2">ç”¨æˆ·ç•™å­˜</button>
                 </div>
             </div>
             <div class="main1_6" id="main1_6"></div>
@@ -226,10 +226,10 @@
         <div class="g_maincontent g_maincontent1_7" id="g_maincontent1_7">
             <div class="g_maincontent_header">
                 <div class="btn-group" role="group" aria-label="...">
-                    <button type="button" class="btn btn-default g_ul2-7-1">²Ù×÷ÏµÍ³</button>
-                    <button type="button" class="btn btn-default g_ul2-7-2">ÁªÍø·½Ê½</button>
-                    <button type="button" class="btn btn-default g_ul2-7-3">ÔËÓªÉÌ</button>
-                    <button type="button" class="btn btn-default g_ul2-7-4">Éè±¸ÐÍºÅ</button>
+                    <button type="button" class="btn btn-default g_ul2-7-1">æ“ä½œç³»ç»Ÿ</button>
+                    <button type="button" class="btn btn-default g_ul2-7-2">è”ç½‘æ–¹å¼</button>
+                    <button type="button" class="btn btn-default g_ul2-7-3">è¿è¥å•†</button>
+                    <button type="button" class="btn btn-default g_ul2-7-4">è®¾å¤‡åž‹å·</button>
                 </div>
             </div>
             <div class="main1_7" id="main1_7"></div>
@@ -242,24 +242,24 @@
         <div class="g_contentpanel1">
             <img src="{{URL::asset('static/image/logo_small.png')}}" alt="logo">
             <ul>
-                <li><a href="#">¹ØÓÚÎÒÃÇ</a></li>
-                <li><a href="#">¼ÓÈëÎÒÃÇ</a></li>
-                <li><a href="#">ÓÑÇéÁ´½Ó</a></li>
-                <li><a href="#">°ïÖúÖÐÐÄ</a></li>
-                <li><a href="#">»î¶¯ÖÐÐÄ</a></li>
-                <li><a href="#">ÁªÏµÎÒÃÇ</a></li>
-                <li><a href="#">¹Ù·½ÈÏÖ¤</a></li>
-                <li><a href="#">¹ã¸æ·þÎñ</a></li>
-                <li><a href="#">ÇÖÈ¨ÉêËß</a></li>
-                <li><a href="#">ÓÃ»§·´À¡</a></li>
+                <li><a href="#">å…³äºŽæˆ‘ä»¬</a></li>
+                <li><a href="#">åŠ å…¥æˆ‘ä»¬</a></li>
+                <li><a href="#">å‹æƒ…é“¾æŽ¥</a></li>
+                <li><a href="#">å¸®åŠ©ä¸­å¿ƒ</a></li>
+                <li><a href="#">æ´»åŠ¨ä¸­å¿ƒ</a></li>
+                <li><a href="#">è”ç³»æˆ‘ä»¬</a></li>
+                <li><a href="#">å®˜æ–¹è®¤è¯</a></li>
+                <li><a href="#">å¹¿å‘ŠæœåŠ¡</a></li>
+                <li><a href="#">ä¾µæƒç”³è¯‰</a></li>
+                <li><a href="#">ç”¨æˆ·åé¦ˆ</a></li>
             </ul>
         </div>
         <div class="g_contentpanel2">
-            <p>´«ËÍÃÅ</p>
+            <p>ä¼ é€é—¨</p>
             <ul>
-                <li><a href="#">QQÓÊÏä</a></li>
-                <li><a href="#">Î¢ÐÅ</a></li>
-                <li><a href="#">Î¢²©</a></li>
+                <li><a href="#">QQé‚®ç®±</a></li>
+                <li><a href="#">å¾®ä¿¡</a></li>
+                <li><a href="#">å¾®åš</a></li>
                 <li><a href="#">Facebook</a></li>
             </ul>
         </div>

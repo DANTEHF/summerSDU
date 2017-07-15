@@ -7,20 +7,20 @@
     <title>360DATA</title>
     <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" type="text/css">
     <link rel="stylesheet" href="{{URL::asset('static/css/generalAdmin.css')}}" type="text/css">
-    <link href="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css">
+    <link href="{{URL::asset('static/css/bootstrap-datetimepicker.min.css')}}" rel="stylesheet" type="text/css">
 
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="{{URL::asset('static/js/bootstrap.min.js')}}"></script>
     <script type="text/javascript" src="http://momentjs.com/downloads/moment.js"></script>
-    <script type="text/javascript" src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript" src="{{URL::asset('static/js/bootstrap-datetimepicker.min.js')}}"></script>
     <script type="text/javascript" src="http://cdn.sobekrepository.org/includes/jquery-rotate/2.2/jquery-rotate.min.js"></script>
     <script src="https://cdn.bootcss.com/echarts/3.6.2/echarts.js"></script>
     <script src="{{URL::asset('static/js/china.js')}}"></script>
-    <script src="{{URL::asset('static/js/drawEcharts.js')}}"></script>
-    <script src="{{URL::asset('static/js/huatu.js')}}"></script>
+    <script src="{{URL::asset('static/js/drawEchart.js')}}"></script>
     <script src="{{URL::asset('static/js/generalAdmin.js')}}"></script>
+    <script src="{{URL::asset('static/js/huatu.js')}}"></script>
+    <script src="{{URL::asset('static/js/interaction.js')}}"></script>
     <script src="{{URL::asset('static/js/logic.js')}}"></script>
-
 </head>
 
 <body>
@@ -266,26 +266,5 @@
     </div>
 </div>
 </body>
-<script>
-    //var remember_token=
-    $.ajax({
-        url:"a/getlist",
-        type:"GET",
-        data:{
-            "remember_token":   "{{$token}}",
-        },
-        success:function(data){
-            console.log(data);
-            var array=data.data;
-           
-            for(var i=0;i<array.length;i++){
-                console.log(array[i].id+"---"+array[i].name);
-				$("#applist").append("<li> " + array[i].name + " </li>"); 
-            }
-            //$(".g_ul1").innerHTML()
-        }
 
-
-    });
-</script>
 </html>

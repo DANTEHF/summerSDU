@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
@@ -16,13 +15,16 @@ class ViewController extends Controller
 		return view('login');
 	}
 	public function showData3(Request $request){
-		$remember_token = $_GET['token'];
-      	if(!$this->check_token($remember_token)){
-        	return $this->stdResponse('-3');
-      	}
-      	
-     //   $manager = Manager::where('id',$id)->first();
-        return view('Data3',['token'=>$remember_token,'name'=>$this->admin_name]);
+
+            $remember_token=$request->session()->get('remember_token');
+
+            if(!$this->check_token($remember_token)){
+                return $this->stdResponse('-3');
+            }
+
+            //   $manager = Manager::where('id',$id)->first();
+            return view('Data3',['token'=>$remember_token,'name'=>$this->admin_name]);
+      
     }
 }
 

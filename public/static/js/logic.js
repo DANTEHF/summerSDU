@@ -1,147 +1,135 @@
 //计算两个日期相差天数
-function DateDiff(sDate1, sDate2) {  //sDate1和sDate2是yyyy-MM-dd格式
+    function DateDiff(sDate1, sDate2) {  //sDate1和sDate2是yyyy-MM-dd格式
 
- 
 
-    var aDate, oDate1, oDate2, iDays;
 
-    aDate = sDate1.split("-");
+        var aDate, oDate1, oDate2, iDays;
 
-    oDate1 = new Date(aDate[1] + '-' + aDate[2] + '-' + aDate[0]);  //转换为yyyy-MM-dd格式
+        aDate = sDate1.split("-");
 
-    aDate = sDate2.split("-");
+        oDate1 = new Date(aDate[1] + '-' + aDate[2] + '-' + aDate[0]);  //转换为yyyy-MM-dd格式
 
-    oDate2 = new Date(aDate[1] + '-' + aDate[2] + '-' + aDate[0]);
+        aDate = sDate2.split("-");
 
-    iDays = parseInt(Math.abs(oDate1 - oDate2) / 1000 / 60 / 60 / 24); //把相差的毫秒数转换为天数
+        oDate2 = new Date(aDate[1] + '-' + aDate[2] + '-' + aDate[0]);
 
- 
-    return iDays;  //返回相差天数
+        iDays = parseInt(Math.abs(oDate1 - oDate2) / 1000 / 60 / 60 / 24); //把相差的毫秒数转换为天数
 
-}
 
-//根据指定的一个日期和相差的天数，获取另外一个日期
+        return iDays;  //返回相差天数
 
-//dateParameter为指定已经存在的日期yyyy-MM-dd  num为相差天数为整型 
+    }
 
+    //根据指定的一个日期和相差的天数，获取另外一个日期
 
-function addByTransDate(dateParameter, num) {
+    //dateParameter为指定已经存在的日期yyyy-MM-dd  num为相差天数为整型 
 
- 
 
-    var translateDate = "", dateString = "", monthString = "", dayString = "";
+    function addByTransDate(dateParameter, num) {
 
-    translateDate = dateParameter.replace("-", "/").replace("-", "/"); ;
 
 
-    var newDate = new Date(translateDate);
+        var translateDate = "", dateString = "", monthString = "", dayString = "";
 
-    newDate = newDate.valueOf();
+        translateDate = dateParameter.replace("-", "/").replace("-", "/"); ;
 
-    newDate = newDate - num * 24 * 60 * 60 * 1000;  //备注 如果是往前计算日期则为减号 否则为加号
 
-    newDate = new Date(newDate);
+        var newDate = new Date(translateDate);
 
- 
+        newDate = newDate.valueOf();
 
-    //如果月份长度少于2，则前加 0 补位   
+        newDate = newDate - num * 24 * 60 * 60 * 1000;  //备注 如果是往前计算日期则为减号 否则为加号
 
-    if ((newDate.getMonth() + 1).toString().length == 1) {
+        newDate = new Date(newDate);
 
-        monthString = 0 + "" + (newDate.getMonth() + 1).toString();
 
-    } else {
 
-        monthString = (newDate.getMonth() + 1).toString();
+        //如果月份长度少于2，则前加 0 补位   
 
-    }
+        if ((newDate.getMonth() + 1).toString().length == 1) {
 
- 
+            monthString = 0 + "" + (newDate.getMonth() + 1).toString();
 
-    //如果天数长度少于2，则前加 0 补位   
+        } else {
 
-    if (newDate.getDate().toString().length == 1) {
+            monthString = (newDate.getMonth() + 1).toString();
 
- 
+        }
 
-        dayString = 0 + "" + newDate.getDate().toString();
 
-    } else {
 
- 
+        //如果天数长度少于2，则前加 0 补位   
 
-        dayString = newDate.getDate().toString();
+        if (newDate.getDate().toString().length == 1) {
 
-    }
 
- 
 
-    dateString = newDate.getFullYear() + "-" + monthString + "-" + dayString;
+            dayString = 0 + "" + newDate.getDate().toString();
 
-    return dateString;
+        } else {
 
 
-}
 
-// function dateArray(startTime,endTime){
-// 	var days = DateDiff(startTime,endTime);
-// 	var date;
-// 		for(i=0;i<days;i++){
-// 			if(days>0){
-// 				date[i] = addByTransDate(endTime, days);
-// 				days--;
-// 			}
-// 		}
-// 	return date;	
-// }
+            dayString = newDate.getDate().toString();
 
-//获取当前时间
-function getCurrentTime(){
+        }
 
-	var  dateString = "", monthString = "", dayString = "";
 
-    var newDate = new Date();
 
-	//如果月份长度少于2，则前加 0 补位   
+        dateString = newDate.getFullYear() + "-" + monthString + "-" + dayString;
 
-    if ((newDate.getMonth() + 1).toString().length == 1) {
+        return dateString;
 
-        monthString = 0 + "" + (newDate.getMonth() + 1).toString();
 
-    } else {
+    }
+    
+    //获取当前时间
+    function getCurrentTime(){
 
-        monthString = (newDate.getMonth() + 1).toString();
+        var  dateString = "", monthString = "", dayString = "";
 
-    }
+        var newDate = new Date();
 
+        //如果月份长度少于2，则前加 0 补位   
 
-    //如果天数长度少于2，则前加 0 补位   
+        if ((newDate.getMonth() + 1).toString().length == 1) {
 
-    if (newDate.getDate().toString().length == 1) {
+            monthString = 0 + "" + (newDate.getMonth() + 1).toString();
 
- 
+        } else {
 
-        dayString = 0 + "" + newDate.getDate().toString();
+            monthString = (newDate.getMonth() + 1).toString();
 
-    } else {
+        }
 
- 
 
-        dayString = newDate.getDate().toString();
+        //如果天数长度少于2，则前加 0 补位   
 
-    }
+        if (newDate.getDate().toString().length == 1) {
 
- 
 
-    dateString = newDate.getFullYear() + "-" + monthString + "-" + dayString;
 
-    return dateString;
-}
-//获取当前时间num天前的数据
-function getAgoDay(num){
-	var startTime =  $("#date_start").val();
-    var endTime =   $("#date_end").val();
+            dayString = 0 + "" + newDate.getDate().toString();
 
-    var day = addByTransDate(getCurrentTime(),num);
-    return day;
-}
+        } else {
+
+
+
+            dayString = newDate.getDate().toString();
+
+        }
+
+
+
+        dateString = newDate.getFullYear() + "-" + monthString + "-" + dayString;
+
+        return dateString;
+    }
+    //获取当前时间num天前的数据
+    function getAgoDay(num){
+        var startTime =  $("#date_start").val();
+        var endTime =   $("#date_end").val();
+
+        var day = addByTransDate(getCurrentTime(),num);
+        return day;
+    }

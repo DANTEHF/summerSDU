@@ -25,7 +25,7 @@ class Controller extends BaseController
         -8 => '文件上传失败',
         -9=> '没有更多内容',
         -10=> '服务器错误',
-
+        -11=> '数据不足',
     ];
     public $filterFail = false;
     public $backMeg;

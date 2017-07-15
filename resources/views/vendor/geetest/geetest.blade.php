@@ -34,7 +34,8 @@
                     offline: !data.success,
                     new_captcha: data.new_captcha,
                     lang: '{{ Config::get('geetest.lang', 'zh-cn') }}',
-                    http: '{{ Config::get('geetest.protocol', 'http') }}' + '://'
+                    http: '{{ Config::get('geetest.protocol', 'http') }}' + '://',
+                    width: '100%'
                 }, handlerEmbed);
             }
         });

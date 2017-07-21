@@ -24,7 +24,7 @@ class Program extends Model
      * @var array
      */
     protected $hidden = [
-      'created_at','updated_at',
+      'created_at','updated_at','app_key',
     ];
     public $timestamps =true;
 }

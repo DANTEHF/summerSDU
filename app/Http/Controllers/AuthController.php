@@ -7,9 +7,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use DB;
 use Germey\Geetest\GeetestCaptcha;
+use Germey\Geetest\GeetestLib;
+use Germey\Geetest\Geetest;
+use MongoDB\Driver\ReadConcern;
 use Validator;
 class AuthController extends Controller{
-
+	use GeetestCaptcha;
     /*---------------------用户登录及注销-----------------------*/
     /*
       1.  登录
@@ -19,23 +22,44 @@ class AuthController extends Controller{
 		password  string
 	      返回参数 ：remember_token , name,  grade （grade相当于permission  ）
      */
+    public function fail_validate($challenge, $validate, $seccode) {
+	    if(md5($challenge) == $validate){
+	        return 1;
+	    }else{
+	        return 0;
+	    }
+	}
     public function login(Request $request){
-
-        $res=  Validator::make($request->all(),[
+        
+    	$res=$this->filter($request,[
             'email'=>'required|filled|email',
             'password'=>'required|filled',
-            'geetest_challenge' => 'geetest',
-        ],[
-            'geetest' => config('geetest.server_fail_alert')
         ]);
         if(!$res){
             return $this->stdResponse('-1');
         }
-        try{
+        $res=$this->filter($request,[
+            'geetest_challenge'=>'required|filled',
+            'geetest_validate'=>'required|filled',
+            'geetest_seccode'=>'required|filled',
+        ]);
+        if(!$res){
+            return $this->stdResponse('-12');
+        }
+        //$geetest = new Geetest();
+        //$geetest->set_privatekey("c3b9f8620c664199660e8f93592a1644");
+        //if(!$geetest->validate($request->geetest_challenge,$request->geetest_validate,$request->geetest_seccode))
+        //	return $this->stdResponse('-12',json_encode($request->all()));;
+        
+        $res=  Validator::make($request->all(),[
+            'email'=>'required|filled|email',
+            'password'=>'required|filled',
+        ]);
+		try{
             $admin=Manager::where('password',md5($request->input('password').'#'.$request->input('email')))
                 ->where('email',$request->input('email'))->first();
 
-            if(!count($admin)>0)  return $this->stdResponse('-2');
+            if(!count($admin)>0)  return $this->stdResponse('-2',json_encode($request->all()));
 
             if($admin->token_expire < date('Y-m-d H:i:s'))
             {
@@ -47,14 +71,9 @@ class AuthController extends Controller{
 
             $request->session()->put('remember_token',$admin->remember_token);
 
-            if($admin->permission==1){
-                return $this->stdResponse('1',"一级界面");
-            }elseif ($admin->permission==2){
-                return $this->stdResponse('1',"二级界面");
-            } else{
-                //           return  redirect('manager?token='.$admin->remember_token);
-                return redirect('manager');
-            }
+
+            return redirect('manager');
+
 
         }catch (\Exception $exception){
             return $this->stdResponse('-4 ' , $exception->getMessage());
@@ -92,6 +111,7 @@ class AuthController extends Controller{
 
     }
     //TODO
+
 
     /*---------------------用户登录及注销结束-----------------------*/
 }

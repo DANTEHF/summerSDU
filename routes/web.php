@@ -22,19 +22,28 @@ Route::delete('a/logout','AuthController@logout');
 Route::group(['prefix'=>'a','middleware'=>'manager'],function(){
 
 	/*-------------------一级--------------------*/
-	Route::get('alist','AdminController@getProject');
+    Route::get('clist','AdminController@getCompany');
+	Route::get('alist/company/{id}','AdminController@getProject');
 	Route::post('company','AdminController@createCompany');
 	Route::post('add','AdminController@createApp');
 	Route::get('ainfo/id/{id}','AdminController@getAppInfo');
 	Route::post('edit','AdminController@updateApp');
+	Route::get('alist/all','AdminController@getAllApp');
+    Route::delete('delapp','AdminController@delApp');
+	/*-------------------二级--------------------*/
 	Route::post('create','AdminController@createAdmin');
 	Route::post('permission/id/{id}','AdminController@setAdmin');
 	Route::post('permission','AdminController@updateAdmin');
+	Route::post('permission/setall','AdminController@setAllPermission');
 	Route::get('mlist','AdminController@getAdmin');
 	Route::get('info/id/{id}','AdminController@getAdminInfo');
+	Route::get('getalist','AdminController@get_alist');
+    Route::delete('delmgr','AdminController@delmgr');
+	/*-------------------三级--------------------*/
 	Route::get('getlist','AdminController@get_app_list');
 	Route::get('getapp','AdminController@get_app_info');
 	Route::post('setalert','AdminController@setAlert');
+	
 	
 });
 /* 获取数据接口 */
@@ -65,16 +74,16 @@ Route::group(['prefix'=>'d','middleware'=>'manager'],function(){
 	Route::get('usersurvive','DataController@get_survive_user');
 
     Route::get('app/{id}/{type}/{param}','DataController@getFeaturesData');
+    Route::get('devarea','DataController@getDevArea');
+    Route::get('userarea','DataController@getUserArea');
 });
 
 /*view 展示接口*/
-
-Route::get('manager','ViewController@showData3');
-
 Route::get('login','ViewController@login');
-Route::get('mlist','AdminController@getAdmin');
+Route::get('manager','ViewController@showData');
 
+
+/*Hadoop 接口*/
 Route::post('upload/{xx}','UploadController@upload');
-//Route::get('/login_back',[ 'as' => 'login', 'uses' => 'LoginController@login']);
 Route::post('mail/send','MailController@send');
 

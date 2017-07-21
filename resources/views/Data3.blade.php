@@ -3,15 +3,15 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
+    <meta http-equiv='Content-Type' content='text/html; charset=utf-8' /> 
     <title>360DATA</title>
     <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" type="text/css">
     <link rel="stylesheet" href="{{URL::asset('static/css/generalAdmin.css')}}" type="text/css">
     <link href="{{URL::asset('static/css/bootstrap-datetimepicker.min.css')}}" rel="stylesheet" type="text/css">
 
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
     <script type="text/javascript" src="{{URL::asset('static/js/bootstrap.min.js')}}"></script>
-    <script type="text/javascript" src="http://momentjs.com/downloads/moment.js"></script>
+    <script type="text/javascript" src="http://apps.bdimg.com/libs/moment/2.8.3/moment.js"></script>
     <script type="text/javascript" src="{{URL::asset('static/js/bootstrap-datetimepicker.min.js')}}"></script>
     <script type="text/javascript" src="http://cdn.sobekrepository.org/includes/jquery-rotate/2.2/jquery-rotate.min.js"></script>
     <script src="https://cdn.bootcss.com/echarts/3.6.2/echarts.js"></script>
@@ -38,7 +38,7 @@
 <div class="g_content">
     <div class="g_content_left">
         <div class="g_content_left g_up">
-            <img src="">
+            <img src="{{URL::asset('static/image/touxiang.png')}}">
             <p class="g_p g_p1">{{ $name }}</p>
             <p class="g_p g_p2">个人自我座右铭</p>
         </div>
@@ -87,6 +87,119 @@
     </div>
 
     <div class="g_content_right">
+        <div class="yujing">
+            <button>添加新预警+</button>
+            <div class="yujing1">
+                <p>预警列表</p>
+                <div class="yujing2">
+                    <table border="0" cellpadding="10">
+                        <tr>
+                            <th>预警名称</th>
+                            <th>预警指标</th>
+                            <th>触发条件</th>
+                            <th>提醒方式</th>
+                            <th>操作</th>
+                        </tr>
+                        <tr>
+                            <td>每日下载预警</td>
+                            <td>日下载量</td>
+                            <td>较前两日波动超过15%</td>
+                            <td>邮件至：</td>
+                            <td>
+                                <a href="">修改</a>
+                                <a href="">删除</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="rizhi">
+            <div class="rizhi1">
+                <p>亲爱的开发者：</p>
+                <p>您好，以下是2017年7月21号的运营日报，请您查看。</p>
+            </div>
+            <div class="rizhi2">
+                <table border="1">
+                    <tr>
+                        <th>应用名称</th>
+                        <th>应用类型</th>
+                        <th>下载量</th>
+                        <th>新增设备</th>
+                        <th>活跃设备</th>
+                        <th>应用详情</th>
+                    </tr>
+                    <tr>
+                        <td>测试APP</td>
+                        <td>软件</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>100</td>
+                        <td><a href="">查看详情</a></td>
+                    </tr>
+                    <tr>
+                        <td>测试APP</td>
+                        <td>软件</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>100</td>
+                        <td><a href="">查看详情</a></td>
+                    </tr>
+                    <tr>
+                        <td>测试APP</td>
+                        <td>软件</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>100</td>
+                        <td><a href="">查看详情</a></td>
+                    </tr>
+                    <tr>
+                        <td>测试APP</td>
+                        <td>软件</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>100</td>
+                        <td><a href="">查看详情</a></td>
+                    </tr>
+                </table>
+            </div>
+            <button>更多数据</button>
+        </div>
         <div class="g_p_hide">
             <p>请选择你的项目</p>
         </div>
@@ -143,7 +256,6 @@
                 <div class="btn-group" role="group" aria-label="...">
                     <button type="button" class="btn btn-default g_ul2-2-1">新增设备数量</button>
                     <button type="button" class="btn btn-default g_ul2-2-2">首次使用时长</button>
-                    <button type="button" class="btn btn-default g_ul2-2-3">设备品牌</button>
                 </div>
             </div>
             <div class="main1_2 main1_2_1" id="main1_2_1"></div>
@@ -151,7 +263,7 @@
         <div class="g_maincontent g_maincontent1_2" id="g_maincontent1_2">
             <div class="g_maincontent_header">
                 <div class="btn-group" role="group" aria-label="...">
-                    <button type="button" class="btn btn-default g_ul2-2-4">使用地区</button>
+                    <button type="button" class="btn btn-default g_ul2-2-3">使用地区</button>
                 </div>
             </div>
             <div class="main1_2 main1_2_2" id="main1_2_2"></div>

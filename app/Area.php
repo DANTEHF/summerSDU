@@ -4,10 +4,10 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Company extends Model
+class Area extends Model
 {
 
-    protected $table='company';
+    protected $table='area';
     protected $primaryKey = "id";
     /**
      * The attributes that are mass assignable.
@@ -15,7 +15,7 @@ class Company extends Model
      * @var array
      */
     protected $fillable = [
-		'name','describe','m_id','address',
+        'app_key', 'area', 'new_dev_count', 'new_user_count','date',
     ];
 
     /**
@@ -23,8 +23,8 @@ class Company extends Model
      *
      * @var array
      */
-    protected $hidden = ['created_at','updated_at',
+    protected $hidden = [
+    	
     ];
     public $timestamps =true;
-
 }

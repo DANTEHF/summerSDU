@@ -52,6 +52,12 @@
      	alert("密码长度必须大于等于6！！")
 	 	return false;
      }
+     var captchaObj=document.getElementById("geetest-captcha").value;
+     var validate = captchaObj.getValidate();
+     if (!validate) {
+		alert('请正确完成验证码操作     by服务端');
+		return false;
+	 }
      //document.getElementById("myform").submit();
   });
      /*

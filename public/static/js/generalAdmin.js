@@ -44,9 +44,15 @@
     var co_y,co_x;
     //设备型号
     var pt_y,pt_x;
+    //设备地区分布
+    var area_dev;
+    //设备用户分布
+    var area_user;
 
     $(document).ready(function() {
         $(".g_ul1").attr("style", "display:none;");
+        $(".rizhi").attr("style", "display:none;");
+        $(".yujing").attr("style", "display:none;");
 
         $(".g_p3").click(function() {
             if($(".g_ul1").is(":hidden")){
@@ -74,6 +80,8 @@
             $(".g_maincontent1_5").attr("style","display:none;");
             $(".g_maincontent1_6").attr("style","display:none;");
             $(".g_maincontent1_7").attr("style","display:none;");
+            $(".rizhi").attr("style", "display:none;");
+            $(".yujing").attr("style", "display:none;");
             $(".g_content_right_header").attr("style","display:block;");
             $(".g_maincontent1_1").attr("style","display:block;");
             $(".g_down").css("height",$(".g_content_right").height()-131);
@@ -105,12 +113,18 @@
 
             //设备首次游戏时长
             interaction2_2(app_id);
+            
+            //设备地区分布
+            interaction2_3(app_id);
 
             //新增用户数量
             interaction3_1(startTime,endTime,app_id);
 
             //用户首次使用时长
             interaction3_2(app_id);
+            
+            //用户地区分布
+            interaction3_3(app_id);
 
             //日活跃设备
             interaction4_1(startTime,endTime,app_id);
@@ -154,7 +168,8 @@
             //设备型号
             interaction7_4(startTime,endTime,app_id);
 
-
+            //获取用户权限
+            //getPermission(app_id);
         });
 
         $(".g_ul2").attr("style", "display:none;");
@@ -195,6 +210,8 @@
             $(".g_maincontent1_5").attr("style","display:none;");
             $(".g_maincontent1_6").attr("style","display:none;");
             $(".g_maincontent1_7").attr("style","display:none;");
+            $(".rizhi").attr("style", "display:none;");
+            $(".yujing").attr("style", "display:none;");
             $(".g_down").css("height",$(".g_content_right").height()-131);
         });
 
@@ -218,6 +235,8 @@
         $(".g_maincontent1_5").attr("style","display:none;");
         $(".g_maincontent1_6").attr("style","display:none;");
         $(".g_maincontent1_7").attr("style","display:none;");
+        $(".rizhi").attr("style", "display:none;");
+        $(".yujing").attr("style", "display:none;");
         /*
          关键数据
          */
@@ -228,6 +247,8 @@
             $(".g_maincontent1_5").attr("style","display:none;");
             $(".g_maincontent1_6").attr("style","display:none;");
             $(".g_maincontent1_7").attr("style","display:none;");
+            $(".rizhi").attr("style", "display:none;");
+            $(".yujing").attr("style", "display:none;");
             $(".g_content_right_header").attr("style","display:block;");
             $(".g_maincontent1_1").attr("style","display:block;");
             $(".g_ul2 li").css("background-color","#d71414");
@@ -246,12 +267,14 @@
             $(".g_maincontent1_5").attr("style","display:none;");
             $(".g_maincontent1_6").attr("style","display:none;");
             $(".g_maincontent1_7").attr("style","display:none;");
+            $(".rizhi").attr("style", "display:none;");
+            $(".yujing").attr("style", "display:none;");
             $(".g_content_right_header").attr("style","display:block;");
             $(".g_maincontent1_2").attr("style","display:block;");
             $(".g_ul2 li").css("background-color","#d71414");
             $(".g_ul2-2").css("background-color","#e42e2e");
             huatu1_2_1(new_device_y,new_device_x);
-            huatu1_2_4();
+            huatu1_2_3(area_dev);
         });
 
         /*
@@ -264,12 +287,14 @@
             $(".g_maincontent1_5").attr("style","display:none;");
             $(".g_maincontent1_6").attr("style","display:none;");
             $(".g_maincontent1_7").attr("style","display:none;");
+            $(".rizhi").attr("style", "display:none;");
+            $(".yujing").attr("style", "display:none;");
             $(".g_content_right_header").attr("style","display:block;");
             $(".g_maincontent1_3").attr("style","display:block;");
             $(".g_ul2 li").css("background-color","#d71414");
             $(".g_ul2-3").css("background-color","#e42e2e");
             huatu1_3_1(new_user_y,new_user_x);
-            huatu1_3_3();
+            huatu1_3_3(area_user);
         });
 
         /*
@@ -282,6 +307,8 @@
             $(".g_maincontent1_5").attr("style","display:none;");
             $(".g_maincontent1_6").attr("style","display:none;");
             $(".g_maincontent1_7").attr("style","display:none;");
+            $(".rizhi").attr("style", "display:none;");
+            $(".yujing").attr("style", "display:none;");
             $(".g_content_right_header").attr("style","display:block;");
             $(".g_maincontent1_4").attr("style","display:block;");
             $(".g_ul2 li").css("background-color","#d71414");
@@ -300,6 +327,8 @@
             $(".g_maincontent1_4").attr("style","display:none;");
             $(".g_maincontent1_6").attr("style","display:none;");
             $(".g_maincontent1_7").attr("style","display:none;");
+            $(".rizhi").attr("style", "display:none;");
+            $(".yujing").attr("style", "display:none;");
             $(".g_content_right_header").attr("style","display:block;");
             $(".g_maincontent1_5").attr("style","display:block;");
             $(".g_ul2 li").css("background-color","#d71414");
@@ -318,6 +347,8 @@
             $(".g_maincontent1_4").attr("style","display:none;");
             $(".g_maincontent1_5").attr("style","display:none;");
             $(".g_maincontent1_7").attr("style","display:none;");
+            $(".rizhi").attr("style", "display:none;");
+            $(".yujing").attr("style", "display:none;");
             $(".g_content_right_header").attr("style","display:block;");
             $(".g_maincontent1_6").attr("style","display:block;");
             $(".g_ul2 li").css("background-color","#d71414");
@@ -335,6 +366,8 @@
             $(".g_maincontent1_4").attr("style","display:none;");
             $(".g_maincontent1_5").attr("style","display:none;");
             $(".g_maincontent1_6").attr("style","display:none;");
+            $(".rizhi").attr("style", "display:none;");
+            $(".yujing").attr("style", "display:none;");
             $(".g_content_right_header").attr("style","display:block;");
             $(".g_maincontent1_7").attr("style","display:block;");
             $(".g_ul2 li").css("color","white");
@@ -359,14 +392,32 @@
          波动预警
          */
         $(".g_ul3-1").click(function(){
-
+            $(".g_maincontent1_1").attr("style","display:none;");
+            $(".g_maincontent1_2").attr("style","display:none;");
+            $(".g_maincontent1_3").attr("style","display:none;");
+            $(".g_maincontent1_4").attr("style","display:none;");
+            $(".g_maincontent1_5").attr("style","display:none;");
+            $(".g_maincontent1_6").attr("style","display:none;");
+            $(".rizhi").attr("style", "display:none;");
+            $(".yujing").attr("style", "display:block;");
+            $(".g_content_right_header").attr("style","display:none;");
+            $(".g_maincontent1_7").attr("style","display:none;");
         });
 
         /*
          运营日志
          */
         $(".g_ul3-2").click(function(){
-
+            $(".g_maincontent1_1").attr("style","display:none;");
+            $(".g_maincontent1_2").attr("style","display:none;");
+            $(".g_maincontent1_3").attr("style","display:none;");
+            $(".g_maincontent1_4").attr("style","display:none;");
+            $(".g_maincontent1_5").attr("style","display:none;");
+            $(".g_maincontent1_6").attr("style","display:none;");
+            $(".rizhi").attr("style", "display:block;");
+            $(".yujing").attr("style", "display:none;");
+            $(".g_content_right_header").attr("style","display:none;");
+            $(".g_maincontent1_7").attr("style","display:none;");
         });
 
         /*
@@ -418,18 +469,12 @@
             huatu1_2_2(dev_first_time_y,dev_first_time_x);
         });
 
-        /*
-         新增设备：设备品牌
-         */
-        $(".g_ul2-2-3").click(function(){
-            huatu1_2_3();
-        });
 
         /*
          新增设备：使用地区
          */
-        $(".g_ul2-2-4").click(function(){
-            huatu1_2_4();
+        $(".g_ul2-2-3").click(function(){
+            huatu1_2_3();
         });
 
         /*
@@ -617,11 +662,17 @@
                         //设备首次游戏时长
                         interaction2_2(app_id);
 
+                        //设备地区分布
+                        interaction2_3(app_id);
+
                         //新增用户数量
                         interaction3_1(startTime,endTime,app_id);
 
                         //用户首次使用时长
                         interaction3_2(app_id);
+                        
+			            //用户地区分布
+			            interaction3_3(app_id);
 
                         //日活跃设备
                         interaction4_1(startTime,endTime,app_id);
@@ -703,6 +754,9 @@
 
             //设备首次游戏时长
             interaction2_2(app_id);
+            
+            //设备地区分布
+            interaction2_3(app_id);
 
             //新增用户数量
             interaction3_1(startTime,endTime,app_id);
@@ -710,6 +764,9 @@
             //用户首次使用时长
             interaction3_2(app_id);
 
+			//用户地区分布
+			interaction3_3(app_id);
+			            
             //日活跃设备
             interaction4_1(startTime,endTime,app_id);
 
@@ -781,6 +838,9 @@
 
             //设备首次游戏时长
             interaction2_2(app_id);
+            
+            //设备地区分布
+            interaction2_3(app_id);
 
             //新增用户数量
             interaction3_1(startTime,endTime,app_id);
@@ -788,6 +848,9 @@
             //用户首次使用时长
             interaction3_2(app_id);
 
+			//用户地区分布
+			interaction3_3(app_id);
+			
             //日活跃设备
             interaction4_1(startTime,endTime,app_id);
 
@@ -859,6 +922,9 @@
 
             //设备首次游戏时长
             interaction2_2(app_id);
+            
+            //设备地区分布
+            interaction2_3(app_id);
 
             //新增用户数量
             interaction3_1(startTime,endTime,app_id);
@@ -866,6 +932,9 @@
             //用户首次使用时长
             interaction3_2(app_id);
 
+			//用户地区分布
+			interaction3_3(app_id);
+			
             //日活跃设备
             interaction4_1(startTime,endTime,app_id);
 
@@ -938,11 +1007,17 @@
             //设备首次游戏时长
             interaction2_2(app_id);
 
+            //设备地区分布
+            interaction2_3(app_id);
+            
             //新增用户数量
             interaction3_1(startTime,endTime,app_id);
 
             //用户首次使用时长
             interaction3_2(app_id);
+
+			//用户地区分布
+			interaction3_3(app_id);
 
             //日活跃设备
             interaction4_1(startTime,endTime,app_id);

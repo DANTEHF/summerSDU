@@ -26,6 +26,7 @@ class Controller extends BaseController
         -9=> '没有更多内容',
         -10=> '服务器错误',
         -11=> '数据不足',
+        -12=> '验证码错误',
     ];
     public $filterFail = false;
     public $backMeg;
@@ -33,7 +34,6 @@ class Controller extends BaseController
     public $admin_email="";
     public $admin_name="";
     public $admin_permission="";
-    public $admin_company="";
     public $admin_c_id="";
 	public $admin_id="";
 
@@ -69,7 +69,6 @@ class Controller extends BaseController
                 $this->admin_email =$token->email;
                 $this->admin_name=$token->name;
                 $this->admin_permission=$token->permission;
-                $this->admin_company =$token->company;
                 $this->admin_c_id =$token->c_id;
                 $this->admin_id =$token->id;
                 return true;

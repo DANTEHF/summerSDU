@@ -14,17 +14,24 @@ class ViewController extends Controller
 	public function login(){
 		return view('login');
 	}
-	public function showData3(Request $request){
+	public function showData(Request $request){
 
-            $remember_token=$request->session()->get('remember_token');
+        $remember_token=$request->session()->get('remember_token');
 
-            if(!$this->check_token($remember_token)){
-                return $this->stdResponse('-3');
-            }
-
-            //   $manager = Manager::where('id',$id)->first();
-            return view('Data3',['token'=>$remember_token,'name'=>$this->admin_name]);
+        if(!$this->check_token($remember_token)){
+            return $this->stdResponse('请您登录！');
+        }
+        if($this->admin_permission==3){
+            return view('Data3',['name'=>$this->admin_name]);
+        } elseif ($this->admin_permission==2){
+            return view('Data2',['name'=>$this->admin_name]);
+        }else{
+            return view('Data1',['name'=>$this->admin_name]);
+        }
       
     }
+
+
+
 }
 

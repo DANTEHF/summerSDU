@@ -19,13 +19,46 @@ class AdminController extends Controller{
     {
         $this->token=$request->session()->get('remember_token');
     }
+/*  pre： 修改密码
+   url：/resetpwd  method:post
+    请求参数：
+        password ,newpassword
+    返回参数：
+        1 成功 ，其他 失败
+ */
+    public function resetPassword(Request $request){
+        if(!$this->check_token($this->token)){
+            return $this->stdResponse('-3');
+        }
+        if($this->admin_permission !=1) return $this->stdResponse('-6');
+        $res=$this->filter($request,[
+            'password'=>'required',
+            'newpassword'=>'required|min:6',
+        ]);
+        if(!$res)  return $this->stdResponse('-1');
+        try{
+            $admin= Manager::find($this->admin_id);
+            if( $admin->password == md5($request->password."#".$this->admin_email) ){
+                $admin->password =md5($request->newpassword."#".$this->admin_email);
+                $admin->save();
+                return $this->stdResponse('1');
+            }
+            return $this->stdResponse('-7');
+
+        }catch (\Exception $exception){
+            return $this->stdResponse('-4');
+        }catch (\Error $error){
+            return $this->stdResponse('-4');
+        }
+
+    }
     /*--------------------- 以下是一级管理员的接口 ---------------------*/
  	 
  	
     /* 1.（root）获取公司列表（分页）
 		Url：/clist   Method:GET
 		请求参数：
-		Remember_token string
+
 		Page   int  要求的页数
 		Rows  int  要求每页的列表
 		返回参数
@@ -37,22 +70,37 @@ class AdminController extends Controller{
         }
 		if($this->admin_permission !=1) return $this->stdResponse('-6');
         $res=$this->filter($request,[
-            'page'=>'required',
-            'rows'=>'required',
+            'page'=>'required|integer',
+            'rows'=>'required|integer',
         ]);
         if(!$res){
             return $this->stdResponse('-1');
         }
-        $com=Company::paginate($request->input('rows'));
+        try{
+        	$com=DB::table('company')->join('manager','company.m_id','=','manager.id')
+                ->select('company.*','manager.name as manager_name')
+                ->paginate($request->input('rows'));
+
+        	//if(count($com)==0)
+        		//return $this->stdResponse('-5');
+			
+			
+       			return $this->stdResponse('1',json_encode($com));
+       		
+
+        }catch (\Exception $exception){
+            return $this->stdResponse('-4');
+        }catch (\Error $error){
+            return $this->stdResponse('-4');
+        }
         
-        return $this->stdResponse('1',$com);
         
     }
 
-    /*新增 （root）获取某公司下项目列表 (分页)
+    /*2 新增 （root）获取某公司下项目列表 (分页)
      	Url：/alist/company/{id}   Method:GET
 		请求参数：
-		Remember_token string
+
 		Page   int  要求的页数
 		Rows  int  要求每页的列表
 		返回参数
@@ -64,22 +112,33 @@ class AdminController extends Controller{
         }
         if($this->admin_permission !=1) return $this->stdResponse('-6');
         $res=$this->filter($request,[
-            'page'=>'required',
-            'rows'=>'required',
+            'page'=>'required|integer',
+            'rows'=>'required|integer',
         ]);
         if(!$res){
             return $this->stdResponse('-1');
         }
-        $name=Company::find($id)->name;
-        $apps=Program::where('company',$name)->get();
-
-        return $this->stdResponse('1',json_encode($apps));
+        try{
+        	$name=Company::find($id)->name;
+        	$apps=Program::where('company',$name)->paginate($request->rows);
+			if($apps->isEmpty())
+				return $this->stdResponse('-5');
+        	
+			
+       			return $this->stdResponse('1',json_encode($apps));
+       		
+        }catch (\Exception $exception){           
+            return $this->stdResponse('-4');
+        }catch (\Error $error){
+            return $this->stdResponse('-4');
+        }
+        
     }
 
-    /*2.（root）添加公司与二级管理员
+    /*3.（root）添加公司与二级管理员
 		Url：/company Method:Post
 		请求参数：
-		Remember_token,
+
 		Company_name,
 		Company_describe,
 		Admin_name,
@@ -133,7 +192,7 @@ class AdminController extends Controller{
         }
     }
     
-    /*  3 . (root)添加项目（app）
+    /*  4 . (root)添加项目（app）
 		Url:/add  Method :POST
 		请求参数 ：
 		Name   string     项目名字 ，
@@ -152,12 +211,15 @@ class AdminController extends Controller{
         $res=$this->filter($request,[
             'name'=>'required',
             'company'=>'required',
-            'starttime'=>'required',
-            'endtime'=>'required',
+            'starttime'=>'required|date_format:Y-m-d',
+            'endtime'=>'required|date_format:Y-m-d',
             'description'=>'required',
         ]);
         if(!$res){
             return $this->stdResponse('-1');
+        }
+        if(strtotime($request->starttime)>strtotime($request->endtime)){
+        	return $this->stdResponse('-1');
         }
         DB::beginTransaction();
         try{
@@ -172,7 +234,7 @@ class AdminController extends Controller{
             $newapp=Program::create($appinfo);
             $newapp->save();
             DB::commit();
-            return $this->stdResponse('1');
+            return $this->stdResponse('1',$newapp->id);
         }catch (\Exception $exception){
             DB::rollback();
             return $this->stdResponse('-4');
@@ -182,10 +244,10 @@ class AdminController extends Controller{
         }
     }
    
-    /*  4.（root）获取项目app信息
+    /*  5.（root）获取项目app信息
 		Url：/ainfo/id/{id}  method：GET
 		请求参数：
-		Remember_token,
+
 		返回参数：
 		app_id,
 		App_name,
@@ -200,14 +262,23 @@ class AdminController extends Controller{
             return $this->stdResponse('-3');
         }
 		if($this->admin_permission !=1) return $this->stdResponse('-6');
-        $app = Program::where('id',$id)->get();
-        return $this->stdResponse('1',$app);
+		try{
+			$app = Program::where('id',$id)->get();
+			if($app->isEmpty())
+				return $this->stdResponse('-5');
+        	return $this->stdResponse('1',json_encode($app));
+		}catch (\Exception $exception){           
+            return $this->stdResponse('-4');
+        }catch (\Error $error){
+            return $this->stdResponse('-4');
+        }
+        
     }
     
-    /*   5.（root）编辑更改app信息
+    /*   6.（root）编辑更改app信息
 		Url:/edit  Method:POST
 		请求参数：
-		Remember_token,
+
 		App_id,
 		Name(需判断是否有该字段),
 		Endtime (需判断)，
@@ -221,9 +292,9 @@ class AdminController extends Controller{
         }
 		if($this->admin_permission !=1) return $this->stdResponse('-6');
 		$res=$this->filter($request,[
-            'app_id'=>'required',
+            'app_id'=>'required|integer',
             'name'=>'required',
-            'endtime'=>'required',
+            'endtime'=>'required|date_format:Y-m-d',
             'description'=>'required',
         ]);
         if(!$res){
@@ -246,8 +317,61 @@ class AdminController extends Controller{
             return $this->stdResponse('-4');
         }
     }
-    
-    
+    /*
+     * 7.(root)获取全部的app列表
+        url：/alist/all  method:get
+        请求参数：page rows
+        返回参数：app all
+     * */
+    public function getAllApp(Request $request){
+        if(!$this->check_token($this->token)){
+            return $this->stdResponse('-3');
+        }
+        if($this->admin_permission !=1) return $this->stdResponse('-6');
+        $res=$this->filter($request,[
+            'page'=>'required|integer',
+            'rows'=>'required|integer',
+        ]);
+        if(!$res){
+            return $this->stdResponse('-1');
+        }
+
+        try{
+           $allapp= Program::paginate($request->rows);
+           return $this->stdResponse('1',json_encode($allapp));
+        }  catch (\Exception $exception){
+            return $this->stdResponse('-4');
+        }catch (\Error $error){
+            return $this->stdResponse('-4');
+        }}
+    /*8. （root）删除app*/
+    public  function delApp(Request $request){
+        if(!$this->check_token($this->token)){
+            return $this->stdResponse('-3');
+        }
+        if($this->admin_permission !=1) return $this->stdResponse('-6');
+        $res=$this->filter($request,[
+            'app_id'=>'required|integer' ,
+        ]);
+        if(!$res){
+            return $this->stdResponse('-1');
+        }
+        try{
+            $bool=Program::find($request->app_id)->delete();
+
+            return $bool?$this->stdResponse('1'): $this->stdResponse('-4');
+            
+        } catch (\Exception $exception){
+
+            return $this->stdResponse('-4');
+        }catch (\Error $error){
+
+            return $this->stdResponse('-4');
+        }
+
+
+
+    }
  	/*---------------------------一级管理员的接口结束--------------------------*/
     
     
@@ -257,7 +381,6 @@ class AdminController extends Controller{
 		描述：企业级管理员创建其他管理员（三级管理员permission=3）
 		Url：/create  METHOD:POST
 		请求参数：
-		remember_token string  用来验证当前管理员权限 ,  
 		name  string   要创建的管理员名字, 
 		email  email   要创建的管理员邮箱, 
 		password string（至少6位） 要创建的管理员密码 , 
@@ -279,14 +402,25 @@ class AdminController extends Controller{
         if(!$res){
             return $this->stdResponse('-1');
         }
-        $new=new Manager();
-        $new->email=$request->email;
-        $new->name =$request->name;
-        $new->password=md5($request->input('password').'#'.$request->input('email'));
-        $new->c_id=$this->admin_c_id;
-        $new->permission=3;
-        $new->save();
-        return $this->stdResponse('1');
+        DB::beginTransaction();
+        try{
+	        $new=new Manager();
+	        $new->email=$request->email;
+	        $new->name =$request->name;
+	        $new->password=md5($request->input('password').'#'.$request->input('email'));
+	        $new->c_id=$this->admin_c_id;
+	        $new->permission=3;
+	        $new->save();
+	        DB::commit();
+            return $this->stdResponse('1',$new->id);
+        }catch(Exception $ex){
+        	DB::rollback();
+        	return $this->stdResponse('-4');
+        }catch(Error $err){
+        	DB::rollback();
+        	return $this->stdResponse('-4');
+        }
+
 
     }
     
@@ -294,7 +428,7 @@ class AdminController extends Controller{
 		描述：root创建的二级管理员默认拥有所属企业下所有软件的所有权限，该接口是二级管理员设置其公司三级管理员权限。
 		Url：/permission/id/{id}  method: POST
 		请求参数：
-		remember_token  string 用来验证当前管理员权限，
+
 		app_id int  分配给管理员的项目id，  
 		(deleted)permission  string   默认为0 
 		返回参数：
@@ -306,7 +440,7 @@ class AdminController extends Controller{
         }
         if($this->admin_permission !=2) return $this->stdResponse('-6');
         $res=$this->filter($request,[
-			'app_id'=>'required',
+			'app_id'=>'required|integer',
         ]);
         if(!$res){
             return $this->stdResponse('-1');
@@ -314,21 +448,15 @@ class AdminController extends Controller{
         
         DB::beginTransaction();
         try{
-	        $app_key = Program::where('id',$request->app_id)->first()->app_key;
-//	        $m_a_permission=M_app_permission::where('manager_id',$id)->where('app_key',$app_key);
-//	        if($m_a_permission->count()==0){
-	        	$m_a_permission = new M_app_permission();
-	        	$m_a_permission->manager_id=$id;
-	        	$m_a_permission->app_key=$app_key;
-	        	$m_a_permission->permission=0;
-	        	$m_a_permission->save();
-	        	DB::commit();
-//	        }else{
-//	        	$m_a_permission=$m_a_permission->first();
-//	        	$m_a_permission->permission=0;
-//	        	$m_a_permission->save();
-//	        	DB::commit();
-//	        }
+            $app_key = Program::where('id',$request->app_id)->first()->app_key;
+
+            $m_a_permission = new M_app_permission();
+            $m_a_permission->manager_id=$id;
+            $m_a_permission->app_key=$app_key;
+            $m_a_permission->permission=0;
+            $m_a_permission->save();
+            DB::commit();
+
         }catch(Exception $ex){
         	DB::rollback();
         	return $this->stdResponse('-4');
@@ -341,7 +469,7 @@ class AdminController extends Controller{
 	/*3.设置三级管理员app权限
 		Url：/permission method:POST
 		请求参数：
-		 	Remember_token ,
+
 		Permission  string  用 ，隔开
 		App_id ,
 	    manager_id,
@@ -354,7 +482,7 @@ class AdminController extends Controller{
         }
         if($this->admin_permission !=2) return $this->stdResponse('-6');
         $res=$this->filter($request,[
-			'app_id'=>'required',
+			'app_id'=>'required|integer',
 			'permission' => 'required',
 			'manager_id' => 'required',
         ]);
@@ -390,6 +518,80 @@ class AdminController extends Controller{
         }
         return $this->stdResponse('1');
 	}
+	/*
+		新增： （二级管理员）设置三级管理员与app的关联
+		URL:/permission/setall method: POST
+		请求参数 :
+		remember_token  string
+		manager_id    int //三级管理员的id
+		array_app_id  数组
+		array_app_checked  数组
+		array_app_per  数组
+		返回参数：
+		1 成功；其他 失败
+	*/
+	public function setAllPermission(Request $request){
+		if(!$this->check_token($this->token)){
+            return $this->stdResponse('-3');
+        }
+        if($this->admin_permission !=2) return $this->stdResponse('-6');
+        $res=$this->filter($request,[
+			'manager_id'=>'required|integer',
+			'array_app_id' => 'required',
+			'array_app_checked' => 'required',
+			'array_app_per' => 'required',
+        ]);
+        if(!$res){
+            return $this->stdResponse('-1');
+        }
+        $Map = array(); //定义一个数组
+		$Map['用户概况'] = 1;
+		$Map['新增用户'] = 2;
+		$Map['活跃用户'] = 4;
+		$Map['用户流失状况'] = 8;
+		$Map['用户特征描述'] = 16;
+		
+		$array_app_id = explode(";",$request->array_app_id);
+		$array_app_checked = explode(";",$request->array_app_checked);
+		$array_app_per = explode(";",$request->array_app_per);
+		DB::beginTransaction();
+      	try{
+			for($i=0;$i<count($array_app_id);$i++){
+				$app_key = Program::where('id',$array_app_id[$i])->first()->app_key;
+				$m_a_permission = M_app_permission::where('manager_id',$request->manager_id)->where('app_key',$app_key)->first();
+				if(intval($array_app_checked[$i]) == 0){
+					if(count($m_a_permission)!=0){
+						$m_a_permission->delete();
+					}
+				}
+				else{
+					$permission_array=explode(",",$array_app_per[$i]);
+					$permission=0;
+					foreach( $permission_array as $per_str){
+			        	$permission += $Map[$per_str];
+			        }
+			        if(count($m_a_permission)==0){
+			        	$m_a_permission = new M_app_permission();
+			            $m_a_permission->manager_id=$request->manager_id;
+			            $m_a_permission->app_key=$app_key;
+			        }
+		            $m_a_permission->permission=$permission;
+		            $m_a_permission->save();
+				}
+			}
+			DB::commit();
+		}catch(Exception $ex){
+      	DB::rollback();
+      	return $this->stdResponse('-4');
+      }catch(Error $err){
+      	DB::rollback();
+      	return $this->stdResponse('-4');
+      }
+        
+        
+        return $this->stdResponse('1',$m_a_permission);
+	}
+	
 	
 	/* 4.（二级管理员）获取三级管理员列表（分页）
 		Url :/mlist  method :GET
@@ -413,11 +615,20 @@ class AdminController extends Controller{
         if(!$res){
             return $this->stdResponse('-1');
         }
-        // $c_id=Company::where('name',$this->admin_company)->first()->id;
-        $admin=Manager::where('permission','3')//->where('c_id',$c_id)
-              			->simplePaginate($request->input('rows'));
+        try{
+        	$c_id=$this->admin_c_id;
+        	$admin=Manager::where('permission','3')->where('c_id',$c_id)
+              			->paginate($request->input('rows'));
+        	if($admin->isEmpty())
+        		return $this->stdResponse('-5');
+        	return $this->stdResponse('1',$admin);
+       		
+        }catch (\Exception $exception){           
+            return $this->stdResponse('-4');
+        }catch (\Error $error){
+            return $this->stdResponse('-4');
+        }
         
-        return $this->stdResponse('1',$admin);
     }
     
     /*5.（二级管理员）获取三级管理员信息
@@ -435,17 +646,104 @@ class AdminController extends Controller{
 			return $this->stdResponse('-3');
 		}
 		if($this->admin_permission !=2) return $this->stdResponse('-6');
-		$mgr = Manager::where('id',$id)->first();
-		$email= $mgr->email;
-		$name= $mgr->name;
+		try{
+			/*
+			$mgr = Manager::where('id',$id)->first();
+			if(count($mgr)==0)
+				return $this->stdResponse('-5');
+			*/
+			$c_id=$this->admin_c_id;
+			$c_name = Company::where('id',$c_id)->first()->name;
+			$app = DB::select('select app.id as app_id,name,permission,manager_id from 
+								(select * from m_app_permission 
+								where manager_id = ? or manager_id is null
+                                ) as m_app_permission
+                            right join app 
+							on m_app_permission.app_key = app.app_key
+                            where app.company = ?
+                            order by app_id',[$id,$c_name]);
+			if(count($app)==0)
+				return $this->stdResponse('-5');
+			$resdata=array('manager_id'=>$id,'app'=>$app);
+       	 	//if($request->page>=1&&$request->page<=$app->lastPage())
+       			return $this->stdResponse('1',json_encode($resdata));
+       		//else
+       		//	return $this->stdResponse('1','{}');
+		}catch (\Exception $exception){           
+            return $this->stdResponse('-4');
+        }catch (\Error $error){
+            return $this->stdResponse('-4');
+        }
 		
-		$app = DB::select('select name,permission from m_app_permission left join app 
-						on m_app_permission.app_key = app.app_key
-						where manager_id = ? ',[$id]);
-		$resdata=array('email'=>$email,'name'=>$mgr,'app'=>$app);
-        return $this->stdResponse('1',json_encode($resdata));
     }
     
+    /* 6.获取所属公司下所有app列表
+	url:/getalist  method:get
+		请求参数：
+		返回参数：
+	app:name,id ,description */
+	
+	public function get_alist(Request $request){
+    	if(!$this->check_token($this->token)){
+			return $this->stdResponse('-3');
+		}
+		if($this->admin_permission !=2) return $this->stdResponse('-6');
+		$res=$this->filter($request,[
+            'page'=>'required|filled|integer',
+            'rows'=>'required|integer',
+        ]);
+        if(!$res){
+            return $this->stdResponse('-1');
+        }
+        try{
+        	$c_name=Company::where('id',$this->admin_c_id)->first()->name;
+			$app=Program::where('company',$c_name)->simplePaginate($request->input('rows'));
+			if($app->isEmpty())
+				return $this->stdResponse('-5');
+			$resdata=array('applist'=>$app);	
+        	
+       			return $this->stdResponse('1',json_encode($resdata));
+       		
+        }catch (\Exception $exception){           
+            return $this->stdResponse('-4');
+        }catch (\Error $error){
+            return $this->stdResponse('-4');
+        }
+		
+    }
+    
+    /*
+     URL:/delmgr method: DELETE
+         请求参数：
+         Remember_token
+         manager_id
+         返回参数：1成功，其他失败
+     * */
+    public function delmgr(Request $request){
+    	if(!$this->check_token($this->token)){
+			return $this->stdResponse('-3');
+		}
+		if($this->admin_permission !=2) return $this->stdResponse('-6');
+		$res=$this->filter($request,[
+            'manager_id'=>'required',
+        ]);
+        DB::beginTransaction();
+        if(!$res){
+            return $this->stdResponse('-1');
+        }
+        try{
+	        $manager = Manager::where('id',$request->manager_id)->first();
+	        $manager->delete();
+	        DB::commit();
+        }catch (\Exception $exception){        
+        	DB::rollback();   
+            return $this->stdResponse('-4');
+        }catch (\Error $error){
+        	DB::rollback();
+            return $this->stdResponse('-4');
+        }
+        
+    }
     
     /*------------------------二级管理员的接口结束----------------------*/
  	 
@@ -453,7 +751,7 @@ class AdminController extends Controller{
  	/*1.获取app列表
     	url：/getlist method:GET
     	请求参数：
-    		remember_token 
+    
     	返回参数：
     	    app：id , name
     */
@@ -462,17 +760,25 @@ class AdminController extends Controller{
 			return $this->stdResponse('-3');
 		}
 		if($this->admin_permission !=3) return $this->stdResponse('-6');
-		$manager_id = $this->admin_id;
-		$app = DB::select('select app.id,name from m_app_permission left join app 
-						on m_app_permission.app_key = app.app_key
-						where manager_id = ? ',[$manager_id]);
-		return $this->stdResponse('1',$app);
+		try{
+			$manager_id = $this->admin_id;
+			$app = DB::select('select app.id,name from m_app_permission left join app 
+							on m_app_permission.app_key = app.app_key
+							where manager_id = ? ',[$manager_id]);
+			if(count($app)==0)
+				return $this->stdResponse('-5');
+			return $this->stdResponse('1',$app);
+		}catch (\Exception $exception){           
+            return $this->stdResponse('-4');
+        }catch (\Error $error){
+            return $this->stdResponse('-4');
+        }
  	}
  	
  	 /*2.获得app信息
     	url：/getapp  method:GET
     	请求参数：
-    		remember_token ,
+
     		app_id,
     	返回参数：
     		name , m_a_permission,description
@@ -482,24 +788,42 @@ class AdminController extends Controller{
 			return $this->stdResponse('-3');
 		}
 		if($this->admin_permission !=3) return $this->stdResponse('-6');
+
 		$res=$this->filter($request,[
-			'app_id'=>'required',
+			'app_id'=>'required|integer',
         ]);
         if(!$res){
             return $this->stdResponse('-1');
         }
-		$manager_id = $this->admin_id;
-		$app=Program::where('id',$request->app_id)->first();
-		$m_a_permission = M_app_permission::where('app_key',$app->app_key)->where('manager_id',$manager_id);
-		$resdata=array('name'=>$app->name,'description'=>$app->description,'m_a_permission'=>$m_a_permission);
-        return $this->stdResponse('1',json_encode($resdata));
+        try{
+        	$manager_id = $this->admin_id;
+			$app=Program::where('id',$request->app_id)->first();
+
+			if(count($app)==0)
+				return $this->stdResponse('-5');
+
+			$m_a_permission = M_app_permission::where('app_key',$app->app_key)->where('manager_id',$manager_id)->first()->permission;
+
+			if($m_a_permission=="")
+				return $this->stdResponse('-5');
+
+			$resdata=array('name'=>$app->name,'description'=>$app->description,'m_a_permission'=>$m_a_permission);
+
+        	return $this->stdResponse('1',json_encode($resdata));
+        }catch (\Exception $exception){
+            return $this->stdResponse('-4');
+        }catch (\Error $error){
+            return $this->stdResponse('-4');
+        }
+        
+		
  	 }
  	 
  	 /*
  	  3.设置预警
 	url/setalert method: POST
 	请求参数：
-		remember_token ,
+
 		app_id,
 		days.
 		item.
@@ -514,7 +838,7 @@ class AdminController extends Controller{
 		}
 		if($this->admin_permission !=3) return $this->stdResponse('-6');
 		$res=$this->filter($request,[
-			'app_id'=>'required',
+			'app_id'=>'required|integer',
 			'days'=>'required',
 			'item'=>'required',
 			'limit'=>'required',
